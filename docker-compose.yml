@@ -12,6 +12,8 @@ services:
   pypiserver:
     build: ./pypiserver
     restart: always
+    environment:
+      - AUTH
     volumes:
       - /var/pypiserver:/data
     depends_on:

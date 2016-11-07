@@ -4,7 +4,12 @@ if [ "$1" = 'pypiserver' ]; then
     echo "[RUN]: Launching pypiserver"
     mkdir -p /data/packages
     touch /data/.htaccess
-    exec pypi-server -p 80 -a update,download,list -P /data/.htaccess  /data/packages
+    if [ "${AUTH}" == "" ]; then
+        AUTH_OPS=""
+    else
+        AUTH_OPS="-a ${AUTH} -P /data/.htaccess"
+    fi
+    exec pypi-server -p 80 "${AUTH_OPS}" /data/packages
 fi
 
 echo "[RUN]: Builtin command not provided [pypiserver]"

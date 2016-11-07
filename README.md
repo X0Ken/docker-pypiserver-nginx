@@ -36,6 +36,10 @@ yum install httpd-tools
 
 # create password
 htpasswd -sc /var/pypiserver/.htaccess <your-name>
+
+vim docker-compose.yml
+# change environment AUTH
+AUTH=update,download,list
 ```
 
 ### Upload package

@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+  log:
+    build: ./log/
+    restart: always
+    volumes:
+      - /var/log/pypiserver/:/var/log/docker/
+    ports:
+      - 1514:514
+
+  pypiserver:
+    build: ./pypiserver
+    restart: always
+    volumes:
+      - /var/pypiserver:/data
+    depends_on:
+      - log
+    logging:
+      driver: "syslog"
+      options:
+        syslog-address: "tcp://127.0.0.1:1514"
+        tag: "pypiserver"
+
+  nginx:
+    image: library/nginx:1.9
+    restart: always
+    volumes:
+      - /var/pypiserver:/data
+      - ./nginx:/etc/nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - pypiserver
+      - log
+    logging:
+      driver: "syslog"
+      options:  
+        syslog-address: "tcp://127.0.0.1:1514"
+        tag: "proxy"
+   

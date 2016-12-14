@@ -9,7 +9,7 @@ if [ "$1" = 'pypiserver' ]; then
     else
         AUTH_OPS="-a ${AUTH} -P /data/.htaccess"
     fi
-    exec pypi-server -p 80 "${AUTH_OPS}" /data/packages
+    exec pypi-server -p 80 ${AUTH_OPS} /data/packages
 fi
 
 echo "[RUN]: Builtin command not provided [pypiserver]"

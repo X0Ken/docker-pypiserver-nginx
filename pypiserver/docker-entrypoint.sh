@@ -4,12 +4,7 @@ if [ "$1" = 'pypiserver' ]; then
     echo "[RUN]: Launching pypiserver"
     mkdir -p /data/packages
     touch /data/.htaccess
-    if [ "${AUTH}" == "" ]; then
-        AUTH_OPS=""
-    else
-        AUTH_OPS="-a ${AUTH} -P /data/.htaccess"
-    fi
-    exec pypi-server -p 80 ${AUTH_OPS} /data/packages
+    exec gunicorn -w16 'pypiserver:app(root="/data/packages", password_file="/data/.htaccess")' -b 0.0.0.0:80
 fi
 
 echo "[RUN]: Builtin command not provided [pypiserver]"

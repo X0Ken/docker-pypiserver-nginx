@@ -12,8 +12,6 @@ services:
   pypiserver:
     build: ./pypiserver
     restart: always
-    environment:
-      - AUTH
     volumes:
       - /var/pypiserver:/data
     depends_on:
@@ -37,7 +35,6 @@ services:
       - log
     logging:
       driver: "syslog"
-      options:  
+      options:
         syslog-address: "tcp://127.0.0.1:1514"
         tag: "proxy"
-   
